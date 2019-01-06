@@ -1,4 +1,4 @@
-package de.fholzstein.mb_linux_mod
+package de.fholzstein.mb.linux.mod
 
 fun main(args : Array<String>) {
     println("Hello, World!")
