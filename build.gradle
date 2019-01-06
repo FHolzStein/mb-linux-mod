@@ -34,6 +34,7 @@ jar {
         attributes 'Main-Class': 'de.fholzstein.mb_linux_mod.ApplicationKt'
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from "LICENSE"
 }
 
 
