@@ -1,6 +1,5 @@
 package de.fholzstein.mb.linux.mod
 
-import io.kotlintest.shouldBe
 import io.kotlintest.specs.StringSpec
 
 class ApplicationKtTest: StringSpec() {
