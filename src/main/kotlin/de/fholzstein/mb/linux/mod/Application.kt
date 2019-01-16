@@ -2,6 +2,7 @@ package de.fholzstein.mb.linux.mod
 
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
+import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.file
@@ -81,7 +82,24 @@ class ModConfigCommand : CliktCommand("add or a change a mod", name = "mod"){
 
 }
 
+class ModSelectionCommand : CliktCommand("Select the mod to start M&B Warband with", name = "selectMod") {
+    val name by option("-n", help = "Name of the mod (Directory name inside the Modules folder in M&B directory)" ).required()
+    override fun run() {
+        val configuration = configurationService.loadConfiguration("default")
+        if (configuration == null || configuration.modConfigs.none { it.targetName == name }) {
+            TermUi.confirm("The chosen mod is not configured in this tool do you want to continue?", abort = true)
+        }
+        val lastModFile = File("${System.getProperty("user.home")}/.mbwarband/last_module_warband")
+        if (!lastModFile.exists()) {
+            lastModFile.mkdirs()
+            lastModFile.createNewFile()
+        }
+        lastModFile.writeText(name)
+        echo("Successfully selected $name as the default mod")
+    }
+
+}
 
 fun main(args: Array<String>)  {
-    Tool().subcommands(LibraryConfigCommand(), ModConfigCommand()).main(args)
+    Tool().subcommands(ModSelectionCommand(), LibraryConfigCommand(), ModConfigCommand()).main(args)
 }
