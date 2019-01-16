@@ -10,20 +10,14 @@ import java.util.*
 
 
 class FileServiceKtTest : WordSpec() {
-    val testFiles: MutableList<File> = arrayListOf()
+
 
     override fun afterTest(description: Description, result: TestResult) {
         super.afterTest(description, result)
-        testFiles.forEach {
-            it.deleteRecursively()
-        }
+        cleanUpTestFiles()
     }
 
-    fun createTestDir() : File {
-        val result = File(UUID.randomUUID().toString())
-        testFiles.add(result)
-        return result
-    }
+
 
     init {
         "method copyDirectory" should {

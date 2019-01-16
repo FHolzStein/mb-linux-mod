@@ -12,6 +12,9 @@ data class ModConfiguration(val srcName: String,
 data class Configuration(val steamHome: String,
                          val modConfigs: List<ModConfiguration>)
 
+data class ConfigurationWriteResult(val success: Boolean,
+                                    val errorMessage: String? = null)
+
 class ConfigurationService(val configDir: File){
 
     fun loadConfiguration(configName: String) : Configuration{
@@ -20,5 +23,14 @@ class ConfigurationService(val configDir: File){
             throw IllegalArgumentException("No configuration found for $configName")
         }
         return JSON.parse(Configuration.serializer(), configFile.readText())
+    }
+
+    fun writeConfiguration(configuration: Configuration, configName: String) : ConfigurationWriteResult {
+        val configFile = File(configDir, "$configName.json")
+        if(!configFile.parentFile.exists()) {
+            configFile.parentFile.mkdirs()
+        }
+        configFile.writeText(JSON.indented.stringify(Configuration.serializer(),configuration))
+        return ConfigurationWriteResult(true)
     }
 }

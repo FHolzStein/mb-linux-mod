@@ -1,12 +1,16 @@
 package de.fholzstein.mb.linux.mod
 
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.shouldThrow
+import io.kotlintest.*
 import io.kotlintest.specs.WordSpec
+import kotlinx.serialization.json.JSON
 import java.io.File
 
 class ConfigurationServiceKtTest  : WordSpec() {
+
+    override fun afterTest(description: Description, result: TestResult) {
+        super.afterTest(description, result)
+        cleanUpTestFiles()
+    }
 
     init {
         "loadConfiguration" should {
@@ -42,6 +46,29 @@ class ConfigurationServiceKtTest  : WordSpec() {
 
                 // then
                 exception.message shouldBe "No configuration found for $configName"
+            }
+        }
+        "writeConfiguration" should {
+            "write a configuration to a JSON file" {
+                // given
+                val configDir = createTestDir()
+                val testee = ConfigurationService(configDir)
+                val configuration = Configuration("steamHome",
+                        listOf(
+                                ModConfiguration("srcName", "targetName")
+                        ))
+                val configName = "someConfigName"
+                // when
+                val result = testee.writeConfiguration(configuration, configName)
+
+                // then
+                result.success shouldBe true
+                result.errorMessage shouldBe null
+
+                val writtenConfiguration =
+                        JSON.parse(Configuration.serializer(), File(configDir, "$configName.json").readText())
+
+                writtenConfiguration shouldBe configuration
             }
         }
     }
