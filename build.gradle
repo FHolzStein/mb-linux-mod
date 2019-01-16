@@ -46,7 +46,7 @@ sourceSets {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'de.fholzstein.mb_linux_mod.ApplicationKt'
+        attributes 'Main-Class': 'de.fholzstein.mb.linux.mod.ApplicationKt'
     }
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     from "LICENSE"
