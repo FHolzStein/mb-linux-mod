@@ -46,7 +46,7 @@ sourceSets {
 }
 
 mainClassName = 'de.fholzstein.mb.linux.mod.ApplicationKt'
-
+name="mb-linux-mod"
 jar {
     manifest {
         attributes 'Main-Class': '$mainClassName'
@@ -68,7 +68,7 @@ distributions {
 
 tasks.withType(Tar){
     compression = Compression.GZIP
-        
+
 }
 
 
