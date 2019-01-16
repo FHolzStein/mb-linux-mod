@@ -1,0 +1,9 @@
+{
+  "steamHome": "someHome",
+  "modConfigs": [
+    {
+      "srcName": "someSrcName",
+      "targetName": "someTargetName"
+    }
+  ]
+}
