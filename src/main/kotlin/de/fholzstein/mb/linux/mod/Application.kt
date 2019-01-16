@@ -9,9 +9,36 @@ import java.io.File
 
 val configurationService = ConfigurationService(File("${System.getProperty("user.home")}/.config/mb_linux_mod/"))
 
-class Tool : CliktCommand(){
+class Tool : CliktCommand(invokeWithoutSubcommand = true){
     override fun run() {
-        echo("Starting mod configuration")
+        if (context.invokedSubcommand == null) {
+            val loadConfiguration = configurationService.loadConfiguration("default")
+            if (loadConfiguration == null) {
+                echo("There are no mods configured.\n" +
+                        "If you want to configure the tool run the tool with --help")
+            } else {
+                echo("Starting copy process of configured mods for library ${loadConfiguration.steamHome}")
+                val modDir = File("${loadConfiguration.steamHome}/steamapps/workshop/content/48700")
+                val mountAndBladeDir = File("${loadConfiguration.steamHome}/steamapps/common/MountBlade Warband")
+                if (!mountAndBladeDir.exists()) {
+                    echo("Mount and Blade Warband is not installed in this SteamLibrary")
+                } else if(!modDir.exists() || modDir.listFiles().isEmpty()) {
+                    echo("There are no M&B Warband mods downloaded in this SteamLibrary", err = true)
+                }  else {
+                    val mountAndBladeModulesDir = File(mountAndBladeDir, "Modules")
+                    if(!mountAndBladeModulesDir.exists()){
+                        mountAndBladeModulesDir.mkdirs()
+                    }
+                    val copyRequests = loadConfiguration.modConfigs.map { it -> CopyDirectoryRequest(File(modDir, it.srcName), File(mountAndBladeModulesDir, it.targetName)) }
+                    val copyResults = FileService().copyDirectories(copyRequests)
+                    val failedCopies = copyResults.filter { !it.success }
+                    for (failedCopy in failedCopies) {
+                        echo("Copying Mod with id ${failedCopy.request.srcDir.name} and name ${failedCopy.request.targetDir.name} failed with error:\n" +
+                                "${failedCopy.errorMessage}")
+                    }
+                }
+            }
+        }
     }
 
 }
