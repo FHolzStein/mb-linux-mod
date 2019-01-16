@@ -1,6 +1,9 @@
 package de.fholzstein.mb.linux.mod
 
-import io.kotlintest.*
+import io.kotlintest.Description
+import io.kotlintest.TestResult
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.WordSpec
 import kotlinx.serialization.json.JSON
 import java.io.File
@@ -25,7 +28,7 @@ class ConfigurationServiceKtTest  : WordSpec() {
                 // then
 
                 configuration shouldNotBe null
-                configuration.steamHome shouldBe "someHome"
+                configuration!!.steamHome shouldBe "someHome"
                 configuration.modConfigs.size shouldBe 1
 
                 val modConfiguration = configuration.modConfigs[0]
@@ -40,12 +43,10 @@ class ConfigurationServiceKtTest  : WordSpec() {
                 val configName = "nonexsistingFile"
 
                 // when
-                val exception = shouldThrow<IllegalArgumentException> {
-                    testee.loadConfiguration(configName)
-                }
+                val configuration = testee.loadConfiguration(configName)
 
                 // then
-                exception.message shouldBe "No configuration found for $configName"
+                configuration shouldBe null
             }
         }
         "writeConfiguration" should {
