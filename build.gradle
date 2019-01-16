@@ -46,7 +46,6 @@ sourceSets {
 }
 
 mainClassName = 'de.fholzstein.mb.linux.mod.ApplicationKt'
-name="mb-linux-mod"
 jar {
     manifest {
         attributes 'Main-Class': '$mainClassName'
@@ -59,7 +58,7 @@ jar {
 
 distributions {
     main {
-        baseName = 'someName'
+        baseName = 'mb-linux-mod'
         contents {
             from 'LICENSE'
         }
