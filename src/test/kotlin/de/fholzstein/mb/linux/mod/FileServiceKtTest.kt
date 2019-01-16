@@ -3,9 +3,7 @@ package de.fholzstein.mb.linux.mod
 import io.kotlintest.Description
 import io.kotlintest.TestResult
 import io.kotlintest.matchers.file.shouldExist
-import io.kotlintest.should
 import io.kotlintest.shouldBe
-import io.kotlintest.specs.StringSpec
 import io.kotlintest.specs.WordSpec
 import java.io.File
 import java.util.*

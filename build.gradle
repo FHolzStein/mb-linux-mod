@@ -7,7 +7,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
     }
 }
 
@@ -15,6 +16,7 @@ group 'de.fholzstein'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'kotlin'
+apply plugin: 'kotlinx-serialization'
 
 sourceCompatibility = 1.8
 compileKotlin {
@@ -58,12 +60,14 @@ test {
 
 repositories {
     mavenCentral()
+    maven { url "https://kotlin.bintray.com/kotlinx"}
 }
 
 dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect:1.3.11")
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0"
+    compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0")
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-runtime', version: '0.9.1'
     testCompile 'io.kotlintest:kotlintest-runner-junit5:3.1.11'
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
 }
