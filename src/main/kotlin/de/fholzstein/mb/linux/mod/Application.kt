@@ -57,8 +57,10 @@ class LibraryConfigCommand : CliktCommand("configure steam library", name = "con
             configurationService.writeConfiguration(configuration, "default")
         } else {
             val configuration = loadConfiguration.copy(steamHome = libraryPath.path)
+            echo("No Configuration found...adding new Configuration")
             configurationService.writeConfiguration(configuration, "default")
         }
+        echo("SteamLibrary successfully set to '$path'")
     }
 }
 
@@ -71,6 +73,7 @@ class ModConfigCommand : CliktCommand("add or a change a mod", name = "mod") {
         val loadConfiguration = configurationService.loadConfiguration("default")
         if (loadConfiguration == null) {
             val configuration = Configuration(modConfigs = listOf(modConfiguration))
+            echo("No previous configuration found, creating new one for SteamLibrary '${configuration.steamHome}'")
             configurationService.writeConfiguration(configuration, "default")
         } else {
             val modsToWrite = loadConfiguration.modConfigs.toMutableList().filter { it -> it.srcName != id }.toMutableList()
@@ -78,6 +81,7 @@ class ModConfigCommand : CliktCommand("add or a change a mod", name = "mod") {
             val configuration = loadConfiguration.copy(modConfigs = modsToWrite)
             configurationService.writeConfiguration(configuration, "default")
         }
+        echo("Mod with id '$id' and name '$name' successfully added to configuration")
     }
 
 }
@@ -91,6 +95,7 @@ class ModSelectionCommand : CliktCommand("Select the mod to start M&B Warband wi
         }
         val lastModFile = File("${System.getProperty("user.home")}/.mbwarband/last_module_warband")
         if (!lastModFile.exists()) {
+            echo("File ${lastModFile.absolutePath} does not exist...creating it")
             lastModFile.mkdirs()
             lastModFile.createNewFile()
         }
@@ -99,7 +104,7 @@ class ModSelectionCommand : CliktCommand("Select the mod to start M&B Warband wi
     }
 }
 
-class ViewModCommand : CliktCommand("Show the current configuration", name = "showConfig") {
+class ShowConfigCommand : CliktCommand("Show the current configuration", name = "showConfig") {
     override fun run() {
         val configuration = configurationService.loadConfiguration("default")
         if (configuration != null) {
@@ -112,9 +117,24 @@ class ViewModCommand : CliktCommand("Show the current configuration", name = "sh
             echo("No existing configuration")
         }
     }
+}
+
+class RemoveModCommand : CliktCommand("Removes one mod identified by its workshop id", name = "removeMod"){
+    val id by option("-id", help = "ID of the mod as seen in the last part of the URL in the Steam Workshop").required()
+
+    override fun run() {
+        val configuration = configurationService.loadConfiguration("default")
+        if(configuration != null){
+            val modsToWrite = configuration.modConfigs.toMutableList().filter { it -> it.srcName != id }
+            configurationService.writeConfiguration(configuration.copy(modConfigs = modsToWrite), "default")
+            echo("Mod with id $id successfully removed")
+        } else {
+            echo("No Configuration found to remove the mod from")
+        }
+    }
 
 }
 
 fun main(args: Array<String>) {
-    Tool().subcommands(ModSelectionCommand(), LibraryConfigCommand(), ModConfigCommand(), ViewModCommand()).main(args)
+    Tool().subcommands(ModSelectionCommand(), LibraryConfigCommand(), ModConfigCommand(), ShowConfigCommand(), RemoveModCommand()).main(args)
 }
