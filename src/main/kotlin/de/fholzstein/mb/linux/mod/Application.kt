@@ -10,7 +10,7 @@ import java.io.File
 
 val configurationService = ConfigurationService(File("${System.getProperty("user.home")}/.config/mb_linux_mod/"))
 
-class Tool : CliktCommand(invokeWithoutSubcommand = true){
+class Tool : CliktCommand(invokeWithoutSubcommand = true) {
     override fun run() {
         if (context.invokedSubcommand == null) {
             val loadConfiguration = configurationService.loadConfiguration("default")
@@ -23,11 +23,11 @@ class Tool : CliktCommand(invokeWithoutSubcommand = true){
                 val mountAndBladeDir = File("${loadConfiguration.steamHome}/steamapps/common/MountBlade Warband")
                 if (!mountAndBladeDir.exists()) {
                     echo("Mount and Blade Warband is not installed in this SteamLibrary")
-                } else if(!modDir.exists() || modDir.listFiles().isEmpty()) {
+                } else if (!modDir.exists() || modDir.listFiles().isEmpty()) {
                     echo("There are no M&B Warband mods downloaded in this SteamLibrary", err = true)
-                }  else {
+                } else {
                     val mountAndBladeModulesDir = File(mountAndBladeDir, "Modules")
-                    if(!mountAndBladeModulesDir.exists()){
+                    if (!mountAndBladeModulesDir.exists()) {
                         mountAndBladeModulesDir.mkdirs()
                     }
                     val copyRequests = loadConfiguration.modConfigs.map { it -> CopyDirectoryRequest(File(modDir, it.srcName), File(mountAndBladeModulesDir, it.targetName)) }
@@ -62,9 +62,9 @@ class LibraryConfigCommand : CliktCommand("configure steam library", name = "con
     }
 }
 
-class ModConfigCommand : CliktCommand("add or a change a mod", name = "mod"){
+class ModConfigCommand : CliktCommand("add or a change a mod", name = "mod") {
     val id by option("-id", help = "ID of the mod in the workshop").required()
-    val name by option("-n", help = "Name of the mod as to be displayed in mod selection" ).required()
+    val name by option("-n", help = "Name of the mod as to be displayed in mod selection").required()
 
     override fun run() {
         val modConfiguration = ModConfiguration(id, name)
@@ -83,7 +83,7 @@ class ModConfigCommand : CliktCommand("add or a change a mod", name = "mod"){
 }
 
 class ModSelectionCommand : CliktCommand("Select the mod to start M&B Warband with", name = "selectMod") {
-    val name by option("-n", help = "Name of the mod (Directory name inside the Modules folder in M&B directory)" ).required()
+    val name by option("-n", help = "Name of the mod (Directory name inside the Modules folder in M&B directory)").required()
     override fun run() {
         val configuration = configurationService.loadConfiguration("default")
         if (configuration == null || configuration.modConfigs.none { it.targetName == name }) {
@@ -97,9 +97,24 @@ class ModSelectionCommand : CliktCommand("Select the mod to start M&B Warband wi
         lastModFile.writeText(name)
         echo("Successfully selected $name as the default mod")
     }
+}
+
+class ViewModCommand : CliktCommand("Show the current configuration", name = "showConfig") {
+    override fun run() {
+        val configuration = configurationService.loadConfiguration("default")
+        if (configuration != null) {
+            echo(
+                    "SteamLibrary: ${configuration.steamHome}\n" +
+                            "Mods: \n" +
+                            configuration.modConfigs.map { "\t${it.srcName} : ${it.targetName}" }.reduce { string, it -> string + "\n" + it }
+            )
+        } else {
+            echo("No existing configuration")
+        }
+    }
 
 }
 
-fun main(args: Array<String>)  {
-    Tool().subcommands(ModSelectionCommand(), LibraryConfigCommand(), ModConfigCommand()).main(args)
+fun main(args: Array<String>) {
+    Tool().subcommands(ModSelectionCommand(), LibraryConfigCommand(), ModConfigCommand(), ViewModCommand()).main(args)
 }
