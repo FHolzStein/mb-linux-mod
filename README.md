@@ -9,6 +9,8 @@ The purpose of this tool is to automate the correct installation of M&B Warband 
 * [Bugs and Feature Requests](https://github.com/FHolzStein/mb-linux-mod#bugs-and-feature-requests)
 
 ## Installation
+**Important**Before installing the program you should have Java version 1.8 (Java 8) or higher installed on your system.
+
 Download the mb-linux-mod-<version>.tgz file from the [Releases page](https://github.com/FHolzStein/mb-linux-mod/releases) and extract it to a directory of choice on your system. In the bin folder you will find the file **mb-linux-mod** which runs the application. This would be sufficient to use the software itself. If you want a proper installation to access it from anywhere you should add this file to your PATH.
 
 ## Usage
