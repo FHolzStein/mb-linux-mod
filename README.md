@@ -9,7 +9,7 @@ The purpose of this tool is to automate the correct installation of M&B Warband 
 * [Bugs and Feature Requests](https://github.com/FHolzStein/mb-linux-mod#bugs-and-feature-requests)
 
 ## Installation
-TODO
+Download the mb-linux-mod-<version>.tgz file from the [Releases page](https://github.com/FHolzStein/mb-linux-mod/releases) and extract it to a directory of choice on your system. In the bin folder you will find the file **mb-linux-mod** which runs the application. This would be sufficient to use the software itself. If you want a proper installation to access it from anywhere you should add this file to your PATH.
 
 ## Usage
 TODO
