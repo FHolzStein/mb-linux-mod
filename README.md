@@ -24,7 +24,7 @@ To execute one run of the copy-step (copies all configured mods and only those) 
 `sh mb-linux-mod`
 If no mods are configured the tool will provide this information. If there were problems with copying specific mods the tool will give a fitting message with an errormessage.
 #### Select the mod for the next start of M&B Warband
-Configuring the next mod will overwrite or create the `~/.mbwarband/last_module_warband file` and set the specific mod. The configuration is based on the configured name of the mod which is also the mod-directory name inside the Modules-folder inside the M&B Warband installation. To execute the configuration run the tool like this:
+Configuring the next mod will overwrite or create the `~/.mbwarband/last_module_warband` file and set the specific mod. The configuration is based on the configured name of the mod which is also the mod-directory name inside the Modules-folder inside the M&B Warband installation. To execute the configuration run the tool like this:
 `sh mb-linux-mod selectMod -n <Name of the mod>`
 ## Bugs and Feature Requests
 TODO
