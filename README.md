@@ -17,6 +17,10 @@ Download the mb-linux-mod-<version>.tgz file from the [Releases page](https://gi
 To configure the path to your SteamLibrary just copy the SteamLibrary path from your Steam settings and run the program like this:
 `sh mb-linux-mod configureLib -p <path-to-your-SteamLibrary>` 
 #### Configure a mod
+To configure a mod to be copied by the tool you need to get the ID of the mod in the Steam Workshop (last part of the URL of the Workshoppage). Then run the program like this:
+`sh mb-linux-mod mod -id <Steam Workshop ID> -n <Name to be used in M&B>`
+#### Run the copy tool
 TODO
+#### Select the mod for the next start of M&B Warband
 ## Bugs and Feature Requests
 TODO
