@@ -16,6 +16,7 @@ Download the mb-linux-mod-<version>.tgz file from the [Releases page](https://gi
 #### StemLibrary Path
 To configure the path to your SteamLibrary just copy the SteamLibrary path from your Steam settings and run the program like this:
 `sh mb-linux-mod configureLib -p <path-to-your-SteamLibrary>` 
-
+#### Configure a mod
+TODO
 ## Bugs and Feature Requests
 TODO
