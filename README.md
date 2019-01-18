@@ -16,23 +16,23 @@ Download the mb-linux-mod-<version>.tgz file from the [Releases page](https://gi
 ## Usage
 ### Configuration
 #### StemLibrary Path
-To configure the path to your SteamLibrary just copy the SteamLibrary path from your Steam settings and run the program like this:
+To configure the path to your SteamLibrary just copy the SteamLibrary path from your Steam settings and run the program like this:<br/>
 `sh mb-linux-mod configureLib -p <path-to-your-SteamLibrary>` 
 #### Configure a mod
-To configure a mod to be copied by the tool you need to get the ID of the mod in the Steam Workshop (last part of the URL of the Workshoppage). Then run the program like this:
+To configure a mod to be copied by the tool you need to get the ID of the mod in the Steam Workshop (last part of the URL of the Workshoppage). Then run the program like this:<br/>
 `sh mb-linux-mod mod -id <Steam Workshop ID> -n <Name to be used in M&B>`
 #### Remove a mod
-To remove a mod from the configuration you need to get the ID of the mod in the Steam Workshop (last part of the URL of the Workshoppage). Then run the program like this:
+To remove a mod from the configuration you need to get the ID of the mod in the Steam Workshop (last part of the URL of the Workshoppage). Then run the program like this:<br/>
 `sh mb-linux-mod removeMod -id <Steam Workshop ID>`
 ### Show the current configuration
-To show the current configuration you have to run the program like this:
+To show the current configuration you have to run the program like this:<br/>
 `sh mb-linux-mod showConfig`
 ### Run the copy tool
-To execute one run of the copy-step (copies all configured mods and only those) execute the tool without any additional parameters like this:
+To execute one run of the copy-step (copies all configured mods and only those) execute the tool without any additional parameters like this:<br/>
 `sh mb-linux-mod`
 If no mods are configured the tool will provide this information. If there were problems with copying specific mods the tool will give a fitting message with an errormessage.
 ### Select the mod for the next start of M&B Warband
-Configuring the next mod will overwrite or create the `~/.mbwarband/last_module_warband` file and set the specific mod. The configuration is based on the configured name of the mod which is also the mod-directory name inside the Modules-folder inside the M&B Warband installation. To execute the configuration run the tool like this:
+Configuring the next mod will overwrite or create the `~/.mbwarband/last_module_warband` file and set the specific mod. The configuration is based on the configured name of the mod which is also the mod-directory name inside the Modules-folder inside the M&B Warband installation. To execute the configuration run the tool like this:<br/>
 `sh mb-linux-mod selectMod -n <Name of the mod>`
 ## Bugs and Feature Requests
 TODO
